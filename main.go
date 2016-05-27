@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	// Usage of hash-calc
-	Usage string = "hash-cals -f='my-cd.iso'"
+	// Usage of checksum-calc
+	Usage string = "checksum-calc -f='my-cd.iso'"
 	// Buffer size of reading file
 	BufSize = 1 * 1024 * 1024
 )
