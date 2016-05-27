@@ -15,7 +15,7 @@ import (
 
 const (
 	// Usage of checksum-calc
-	Usage string = "checksum-calc -f='my-cd.iso'"
+	Usage string = "Usage:\nchecksum-calc -f=<file>\nEx: checksum-calc 'my-cd.iso'"
 	// Buffer size of reading file
 	BufSize = 1 * 1024 * 1024
 )
