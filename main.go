@@ -14,6 +14,8 @@ import (
 )
 
 const (
+	// Incorrect arguments message
+	IncorrectArgsMsg string = "Incorrect arguments, please see usage:\n"
 	// Usage of checksum-calc
 	Usage string = "Usage:\nchecksum-calc -f=<file>\nEx: checksum-calc 'my-cd.iso'"
 	// Buffer size of reading file
@@ -72,6 +74,7 @@ func main() {
 	flag.Parse()
 
 	if inputFile == "" {
+		fmt.Printf("%s\n", IncorrectArgsMsg)
 		flag.PrintDefaults()
 		fmt.Printf("%s\n", Usage)
 		return
