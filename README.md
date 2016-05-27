@@ -12,5 +12,9 @@ checksum-calc is a program written in [Golang](http://golang.org) which calculat
     checksum-calc -f=<file>
     Ex: checksum-calc -f='my-cd.iso'
 
+#### Screenshot
+
+![Screenshot on Windows](images/screenshot-1.png)
+
 #### LICENSE
 * [MIT License](./LICENSE) 
