@@ -16,5 +16,5 @@ checksum-calc is a program which calculates file MD5, SHA-1 checksums. It's writ
 
 ![Screenshot on Windows](images/screenshot-1.png)
 
-#### LICENSE
+#### License
 * [MIT License](./LICENSE) 
