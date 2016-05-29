@@ -93,7 +93,7 @@ func main() {
 	}
 	defer f.Close()
 
-	fmt.Printf("Starting computing checksums...\n")
+	fmt.Printf("Computing checksums...\n")
 
 	checksums, err := ComputeChecksums(f)
 	if err != nil {
@@ -101,7 +101,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Checksums has been computed successfully.\n")
+	fmt.Printf("Done.\n")
 	s := "--------------------------------------\n"
 	for k, v := range checksums {
 		s += fmt.Sprintf("%s: %s\n", k, v)
