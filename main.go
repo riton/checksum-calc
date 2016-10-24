@@ -46,10 +46,10 @@ func ComputeChecksums(r io.Reader) (checksums map[string]string, err error) {
 		n, err := reader.Read(buf)
 		if err != nil && err != io.EOF {
 			return checksums, err
-		} else {
-			if n == 0 {
-				break
-			}
+		}
+
+		if n == 0 {
+			break
 		}
 
 		// Adds more data to the running hash.
