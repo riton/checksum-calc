@@ -14,12 +14,12 @@ import (
 )
 
 const (
-	// Incorrect arguments message
-	IncorrectArgsMsg string = "Incorrect arguments, please see usage:\n"
-	// Usage of checksum-calc
-	Usage string = "Usage:\nchecksum-calc -f=<file>\nEx: checksum-calc -f='my-cd.iso'"
-	// Buffer size of reading file
-	BufSize = 1 * 1024 * 1024
+	// incorrectArgsMsg is the message while arguments error occurs.
+	incorrectArgsMsg string = "Incorrect arguments, please see usage:\n"
+	// usage is the message of checksum-calc usage.
+	usage string = "usage:\nchecksum-calc -f=<file>\nEx: checksum-calc -f='my-cd.iso'"
+	// bufSize is buffer size of reading file.
+	bufSize = 1 * 1024 * 1024
 )
 
 // ComputeChecksums() reads bytes and compute checksums.
@@ -41,7 +41,7 @@ func ComputeChecksums(r io.Reader) (checksums map[string]string, err error) {
 	hashes["MD5"] = md5.New()
 	hashes["SHA-1"] = sha1.New()
 
-	buf := make([]byte, BufSize)
+	buf := make([]byte, bufSize)
 	for {
 		n, err := reader.Read(buf)
 		if err != nil && err != io.EOF {
@@ -74,9 +74,9 @@ func main() {
 	flag.Parse()
 
 	if inputFile == "" {
-		fmt.Printf("%s\n", IncorrectArgsMsg)
+		fmt.Printf("%s\n", incorrectArgsMsg)
 		flag.PrintDefaults()
-		fmt.Printf("%s\n", Usage)
+		fmt.Printf("%s\n", usage)
 		return
 	}
 
