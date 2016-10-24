@@ -22,7 +22,7 @@ const (
 	bufSize = 1 * 1024 * 1024
 )
 
-// ComputeChecksums() reads bytes and compute checksums.
+// ComputeChecksums reads bytes and compute checksums.
 //
 //   Params:
 //     r: io.Reader to read bytes from.
