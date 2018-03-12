@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"crypto/md5"
 	"crypto/sha1"
+	"crypto/sha256"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"hash"
@@ -40,6 +42,7 @@ func ComputeChecksums(r io.Reader) (checksums map[string]string, err error) {
 
 	hashes["MD5"] = md5.New()
 	hashes["SHA-1"] = sha1.New()
+	hashes["SHA-256"] = sha256.New()
 
 	buf := make([]byte, bufSize)
 	for {
@@ -70,7 +73,10 @@ func ComputeChecksums(r io.Reader) (checksums map[string]string, err error) {
 func main() {
 	inputFile := ""
 
+	var jsonOut bool
+
 	flag.StringVar(&inputFile, "f", "", "File to calculate MD5 / SHA-1 hash. Ex: -f='my-cd.iso'")
+	flag.BoolVar(&jsonOut, "jsonout", false, "dump json format output")
 	flag.Parse()
 
 	if inputFile == "" {
@@ -93,7 +99,9 @@ func main() {
 	}
 	defer f.Close()
 
-	fmt.Printf("Computing checksums...\n")
+	if !jsonOut {
+		fmt.Printf("Computing checksums...\n")
+	}
 
 	checksums, err := ComputeChecksums(f)
 	if err != nil {
@@ -101,10 +109,27 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Done.\n")
-	s := "--------------------------------------\n"
-	for k, v := range checksums {
-		s += fmt.Sprintf("%s: %s\n", k, v)
+	if !jsonOut {
+		fmt.Printf("Done.\n")
+		s := "--------------------------------------\n"
+		for k, v := range checksums {
+			s += fmt.Sprintf("%s: %s\n", k, v)
+		}
+		fmt.Printf("%s\n", s)
+	} else {
+		hashes := struct {
+			Md5    string
+			Sha256 string
+			Sha1   string
+		}{
+			string(checksums["MD5"]),
+			string(checksums["SHA-256"]),
+			string(checksums["SHA-1"]),
+		}
+
+		jsonStr, _ := json.Marshal(hashes)
+
+		fmt.Print(string(jsonStr))
+
 	}
-	fmt.Printf("%s\n", s)
 }
