@@ -11,15 +11,13 @@ import (
 	"hash"
 	"io"
 	"os"
-
-	"github.com/northbright/pathhelper"
 )
 
 const (
 	// incorrectArgsMsg is the message while arguments error occurs.
 	incorrectArgsMsg string = "Incorrect arguments, please see usage:\n"
 	// usage is the message of checksum-calc usage.
-	usage string = "usage:\nchecksum-calc -f=<file>\nEx: checksum-calc -f='my-cd.iso'"
+	usage string = "usage:\nchecksum-calc [-j] -f=<file>\nEx: checksum-calc -f='my-cd.iso'"
 	// bufSize is buffer size of reading file.
 	bufSize = 1 * 1024 * 1024
 )
@@ -71,12 +69,11 @@ func ComputeChecksums(r io.Reader) (checksums map[string]string, err error) {
 }
 
 func main() {
-	inputFile := ""
-
+	var inputFile string
 	var jsonOut bool
 
 	flag.StringVar(&inputFile, "f", "", "File to calculate MD5 / SHA-1 hash. Ex: -f='my-cd.iso'")
-	flag.BoolVar(&jsonOut, "jsonout", false, "dump json format output")
+	flag.BoolVar(&jsonOut, "j", false, "dump json format output")
 	flag.Parse()
 
 	if inputFile == "" {
@@ -86,15 +83,9 @@ func main() {
 		return
 	}
 
-	absFilePath, err := pathhelper.GetAbsPath(inputFile)
+	f, err := os.Open(inputFile)
 	if err != nil {
-		fmt.Printf("pathhelper.GetAbsPath(%v) error: %v\n", inputFile, err)
-		return
-	}
-
-	f, err := os.Open(absFilePath)
-	if err != nil {
-		fmt.Printf("os.Open(%v) error: %v\n", absFilePath, err)
+		fmt.Printf("os.Open(%v) error: %v\n", inputFile, err)
 		return
 	}
 	defer f.Close()
@@ -129,7 +120,7 @@ func main() {
 
 		jsonStr, _ := json.Marshal(hashes)
 
-		fmt.Print(string(jsonStr))
+		fmt.Println(string(jsonStr))
 
 	}
 }
